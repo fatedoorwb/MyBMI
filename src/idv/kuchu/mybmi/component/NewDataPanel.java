@@ -111,7 +111,7 @@ public class NewDataPanel extends Panel {
 				JSONObject user = DataManager.instance.getUserData();
 				try {
 					MainScreen.getInstance()
-							.add(new DataAnalyzePanel(user.getInt("gender"), 2017 - user.getInt("year"), height, weight));
+							.addF(new DataAnalyzePanel(user.getInt("gender"), 2017 - user.getInt("year"), height, weight));
 				} catch (JSONException exception) {
 					JOptionPane.showMessageDialog(null, exception.toString());
 					return;
