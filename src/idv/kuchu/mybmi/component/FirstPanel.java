@@ -87,7 +87,7 @@ public class FirstPanel extends Panel {
 					if (DataManager.instance.wirte(new File(MainScreen.getCurrentFile(), "data/user.json"), object))
 						JOptionPane.showMessageDialog(null, "初始資料已記錄，歡迎使用本系統");
 					MainScreen.getInstance().disposeF();
-					// MainScreen.getInstance().addF(new FirstPanel());
+					MainScreen.getInstance().addF(new NewDataPanel());
 				} catch (JSONException exception) {
 					JOptionPane.showMessageDialog(null, exception.toString());
 					return;

@@ -16,6 +16,7 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import idv.kuchu.mybmi.component.FirstPanel;
+import idv.kuchu.mybmi.component.NewDataPanel;
 import idv.kuchu.mybmi.data.DataManager;
 
 public class MainScreen extends JFrame {
@@ -108,6 +109,8 @@ public class MainScreen extends JFrame {
 		if (!DataManager.instance.hasUserData()) {
 			FirstPanel obj = new FirstPanel();
 			this.addF(obj);
+		}else{
+			this.addF(new NewDataPanel());
 		}
 		this.setVisible(true);
 		new Thread(new SystemUpdate()).start();
