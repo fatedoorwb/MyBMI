@@ -1,11 +1,5 @@
 package idv.kuchu.mybmi.component;
 
-<<<<<<< HEAD
-public class AllDataAnalyzePanel {
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-=======
 import java.awt.Font;
 import java.awt.Panel;
 
@@ -53,7 +47,6 @@ public class AllDataAnalyzePanel extends Panel{
 		this.add(BodyFat);
 
 		this.add(back);
->>>>>>> 26f6205b37af65fc242a51f67e9eda5978eb8e1f
 
 	}
 
