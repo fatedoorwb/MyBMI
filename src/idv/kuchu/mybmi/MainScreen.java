@@ -3,6 +3,7 @@ package idv.kuchu.mybmi;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Panel;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -13,6 +14,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.JFrame;
+
+import idv.kuchu.mybmi.component.FirstPanel;
 
 public class MainScreen extends JFrame {
 
@@ -57,22 +60,35 @@ public class MainScreen extends JFrame {
 	public static final int SCREEN_W = 800, SCREEN_H = 600;
 	private boolean run = true;
 
-	private List<JFrame> frames = new ArrayList<JFrame>();
+	private List<Panel> panels = new ArrayList<Panel>();
 
-	private void addF(JFrame frame) {
-		frames.add(frame);
+	public void addF(Panel panel) {
+		if(panel==null)
+			return;
+		this.removeFAll();
+		panel.setLayout(null);
+		this.panels.add(panel);
+		this.add(panel);
 	}
-
-	private JFrame getF() {
-		return this.frames.size() > 0 ? this.frames.remove(this.frames.size() - 1) : null;
-	}
-
-	private JFrame disposeF() {
-		if(this.frames.size() > 0){
-			this.frames.get(this.frames.size() - 1).dispose();
-			return this.frames.remove(this.frames.size() - 1);
+	
+	private void removeFAll(){
+		for(Panel panel:panels){
+			this.remove(panel);
 		}
-		return  null;
+	}
+
+	public Panel getF() {
+		return this.panels.size() > 0 ? this.panels.get(this.panels.size() - 1) : null;
+	}
+
+	public void disposeF() {
+		this.removeFAll();
+		if (this.panels.size() > 0) {
+			this.panels.remove(getF());
+			if (this.panels.size() > 0) {
+				this.add(getF());
+			}
+		}
 	}
 
 	public MainScreen() {
@@ -82,6 +98,8 @@ public class MainScreen extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
 		new Thread(new SystemUpdate()).start();
+		FirstPanel obj = new FirstPanel();
+		addF(obj);
 	}
 
 	BufferedImage screen = new BufferedImage(SCREEN_W, SCREEN_H, BufferedImage.TYPE_3BYTE_BGR);
@@ -90,17 +108,14 @@ public class MainScreen extends JFrame {
 		Graphics2D screen_g2d = (Graphics2D) screen.getGraphics();
 		screen_g2d.setColor(Color.white);
 		screen_g2d.fillRect(0, 0, SCREEN_W, SCREEN_H);
-		if(getF()!=null){
-			getF().paint(screen_g2d);
-		}else{
-			super.paint(screen_g2d);
-		}
+		super.paint(screen_g2d);
+
 		g.drawImage(screen, 0, 0, null);
 	}
 
 	class SystemUpdate implements Runnable {
 		public void run() {
-			while (run) {
+			while (run && isVisible()) {
 				try {
 					Thread.sleep(50);
 					repaint();
