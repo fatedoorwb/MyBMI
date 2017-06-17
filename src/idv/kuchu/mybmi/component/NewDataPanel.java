@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import idv.kuchu.mybmi.MainScreen;
@@ -108,8 +109,13 @@ public class NewDataPanel extends Panel {
 					int day = 1;
 				}
 				JSONObject user = DataManager.instance.getUserData();
-				MainScreen.getInstance()
-						.add(new DataAnalyzePanel(user.getInt("gender"), 2017 - user.getInt("year"), height, weight));
+				try {
+					MainScreen.getInstance()
+							.add(new DataAnalyzePanel(user.getInt("gender"), 2017 - user.getInt("year"), height, weight));
+				} catch (JSONException exception) {
+					JOptionPane.showMessageDialog(null, exception.toString());
+					return;
+				}
 			}
 
 		});
