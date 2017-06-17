@@ -3,6 +3,7 @@ package idv.kuchu.mybmi.component;
 import java.awt.Font;
 import java.awt.Panel;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -52,6 +53,10 @@ public class DataAnalyzePanel extends Panel {
 		JLabel labelshowIdealweight = new JLabel(String.valueOf(v2));//計算
 		labelshowIdealweight.setFont(font);
 		labelshowIdealweight.setBounds(100 + X, 200 + Y, 300, 64);
+		
+		JButton back = new JButton("返回");
+		back.setFont(font);
+		back.setBounds(BX, BY, 200, 64);
 
 		
 		this.add(labelBMI);
@@ -63,6 +68,7 @@ public class DataAnalyzePanel extends Panel {
 		this.add(labelIdealweight);
 		this.add(labelshowIdealweight);
 		
+		this.add(back);
 
 		
 		
@@ -70,7 +76,7 @@ public class DataAnalyzePanel extends Panel {
 		
 		
 		
-		//1男2女	
+		
 	}
 
 }
