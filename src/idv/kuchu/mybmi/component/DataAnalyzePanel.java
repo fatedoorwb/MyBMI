@@ -24,14 +24,17 @@ public class DataAnalyzePanel extends Panel {
 		JLabel labelBMI = new JLabel("BMI");
 		labelBMI.setFont(font);
 		labelBMI.setBounds(X, Y, 64, 64);
-		JLabel labelshowBMI = new JLabel(String.valueOf(weight/((height/100)*(height/100))));//計算
+		
+		float v1 = weight/((height/100)*(height/100));
+
+		JLabel labelshowBMI = new JLabel(String.valueOf(v1));//計算
 		labelshowBMI.setFont(font);
 		labelshowBMI.setBounds(100 + X, Y, 300, 64);
 		
 		JLabel labelBodyFat = new JLabel("體脂");
 		labelBodyFat.setFont(font);
 		labelBodyFat.setBounds(X, 100 + Y, 64, 64);
-		JLabel labelshowBodyFat = new JLabel(String.valueOf(1.2*(weight/((height/100)*(height/100)))+0.23*age-5.4-10.8*gender));//計算
+		JLabel labelshowBodyFat = new JLabel(String.valueOf(1.2*v1+0.23*age-5.4-10.8*gender));//計算
 		labelshowBodyFat.setFont(font);
 		labelshowBodyFat.setBounds(100 + X, 100 + Y, 300, 64);
 
@@ -39,14 +42,14 @@ public class DataAnalyzePanel extends Panel {
 		labelIdealweight.setFont(font);
 		labelIdealweight.setBounds(X, 200 + Y, 64, 64);
 		
-		float v1 = 0;
+		float v2 = 0;
 		if(gender==1){
-			v1=(height-80)*0.7f;
+			v2=(height-80)*0.7f;
 			
 			}else if(gender==0){
-				v1=(height-70)*0.6f;};
+				v2=(height-70)*0.6f;};
 
-		JLabel labelshowIdealweight = new JLabel(String.valueOf(v1));//計算
+		JLabel labelshowIdealweight = new JLabel(String.valueOf(v2));//計算
 		labelshowIdealweight.setFont(font);
 		labelshowIdealweight.setBounds(100 + X, 200 + Y, 300, 64);
 
