@@ -2,6 +2,8 @@ package idv.kuchu.mybmi.component;
 
 import java.awt.Font;
 import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.ParseException;
 
 import java.text.SimpleDateFormat;
@@ -50,9 +52,28 @@ public class NewDataPanel extends Panel {
 		tipDate.setFont(new Font("微軟正黑體", Font.BOLD, 16));
 		tipDate.setBounds(100 + X, 264 + Y, 300, 16);
 
+		JButton back = new JButton("取消");
+		back.setFont(font);
+		back.setBounds(BX+116, BY, 200, 64);
+		back.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainScreen.getInstance().disposeF();
+			}
+			
+		});
 		JButton add = new JButton("新增");
 		add.setFont(font);
-		add.setBounds(BX, BY, 200, 64);
+		add.setBounds(BX-116, BY, 200, 64);
+		add.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainScreen.getInstance().disposeF();
+			}
+			
+		});
 
 		this.add(labelHeight);
 		this.add(textboxHeight);
@@ -61,6 +82,7 @@ public class NewDataPanel extends Panel {
 		this.add(labelDate);
 		this.add(tipDate);
 		this.add(textboxDate);
+		this.add(back);
 		this.add(add);
 
 	}

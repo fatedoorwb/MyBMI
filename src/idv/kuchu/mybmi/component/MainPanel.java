@@ -22,6 +22,14 @@ public class MainPanel extends Panel {
 		JButton BTL = new JButton("新增資料");
 		BTL.setFont(font);
 		BTL.setBounds(BX, BY-228, 200, 200);
+		BTL.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainScreen.getInstance().addF(new NewDataPanel());
+			}
+			
+		});
 		JButton BTR = new JButton("整體分析");
 		BTR.setFont(font);
 		BTR.setBounds(BX+232, BY-228, 200, 200);
