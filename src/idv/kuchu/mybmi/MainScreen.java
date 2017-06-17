@@ -16,6 +16,7 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import idv.kuchu.mybmi.component.FirstPanel;
+import idv.kuchu.mybmi.data.DataManager;
 
 public class MainScreen extends JFrame {
 
@@ -27,6 +28,10 @@ public class MainScreen extends JFrame {
 		File now_directory = new File(".");
 		String current_path = now_directory.getAbsolutePath().replaceAll("\\.", "");
 		return current_path;
+	}
+	
+	public static File getCurrentFile() {
+		return new File(getCurrentDirectory());
 	}
 
 	public static byte[] readStream(String path) throws Exception {
@@ -98,8 +103,10 @@ public class MainScreen extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
 		new Thread(new SystemUpdate()).start();
-		FirstPanel obj = new FirstPanel();
-		addF(obj);
+		if(DataManager.instance.hasUserData()){
+			FirstPanel obj = new FirstPanel();
+			addF(obj);
+		}
 	}
 
 	BufferedImage screen = new BufferedImage(SCREEN_W, SCREEN_H, BufferedImage.TYPE_3BYTE_BGR);
