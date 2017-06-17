@@ -27,9 +27,10 @@ public class AboutPanel extends Panel {
 		MainScreen.log("Load About Panel...");
 		List<String> member = new ArrayList<String>();
 		member.add("10515540"+"        "+"梨水竹");
-		member.add("10515500"+"        "+"竹水梨");
-		member.add("10515527"+"        "+"夜韹蝶");
-		member.add("10515501"+"        "+"雨夏慧");
+		member.add("105021033"+"      "+"黃苡珊");
+		member.add("105021008"+"      "+"陳畯程");
+		member.add("105021009"+"      "+"陳俞儒");
+
 		for(int i=0;i<member.size()&&i<4;i++){
 			JLabel label = new JLabel(member.get(i));
 			label.setFont(font);
