@@ -29,7 +29,7 @@ public class MainScreen extends JFrame {
 		String current_path = now_directory.getAbsolutePath().replaceAll("\\.", "");
 		return current_path;
 	}
-	
+
 	public static File getCurrentFile() {
 		return new File(getCurrentDirectory());
 	}
@@ -62,22 +62,22 @@ public class MainScreen extends JFrame {
 		return strDate;
 	}
 
-	public static final int SCREEN_W = 800, SCREEN_H = 600;
+	public static final int SCREEN_W = 600, SCREEN_H = 500;
 	private boolean run = true;
 
 	private List<Panel> panels = new ArrayList<Panel>();
 
 	public void addF(Panel panel) {
-		if(panel==null)
+		if (panel == null)
 			return;
 		this.removeFAll();
 		panel.setLayout(null);
 		this.panels.add(panel);
 		this.add(panel);
 	}
-	
-	private void removeFAll(){
-		for(Panel panel:panels){
+
+	private void removeFAll() {
+		for (Panel panel : panels) {
 			this.remove(panel);
 		}
 	}
@@ -102,15 +102,16 @@ public class MainScreen extends JFrame {
 		this.setBounds(0, 0, MainScreen.SCREEN_W, MainScreen.SCREEN_H);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
-		new Thread(new SystemUpdate()).start();
-		if(DataManager.instance.hasUserData()){
+		if (!DataManager.instance.hasUserData()) {
 			FirstPanel obj = new FirstPanel();
-			addF(obj);
+			this.add(obj);
 		}
+		new Thread(new SystemUpdate()).start();
 	}
 
 	BufferedImage screen = new BufferedImage(SCREEN_W, SCREEN_H, BufferedImage.TYPE_3BYTE_BGR);
 
+	@Override
 	public void paint(Graphics g) {
 		Graphics2D screen_g2d = (Graphics2D) screen.getGraphics();
 		screen_g2d.setColor(Color.white);
@@ -121,6 +122,7 @@ public class MainScreen extends JFrame {
 	}
 
 	class SystemUpdate implements Runnable {
+		@Override
 		public void run() {
 			while (run && isVisible()) {
 				try {
