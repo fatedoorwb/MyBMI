@@ -14,7 +14,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import org.json.JSONObject;
+
 import idv.kuchu.mybmi.MainScreen;
+import idv.kuchu.mybmi.data.DataManager;
 
 public class NewDataPanel extends Panel {
 
@@ -59,52 +62,69 @@ public class NewDataPanel extends Panel {
 
 		JButton back = new JButton("取消");
 		back.setFont(font);
-		back.setBounds(BX+116, BY, 200, 64);
-		back.addActionListener(new ActionListener(){
+		back.setBounds(BX + 116, BY, 200, 64);
+		back.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				MainScreen.getInstance().disposeF();
 			}
-			
+
 		});
 		JButton add = new JButton("新增");
 		add.setFont(font);
-		add.setBounds(BX-116, BY, 200, 64);
-		add.addActionListener(new ActionListener(){
+		add.setBounds(BX - 116, BY, 200, 64);
+		add.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int height = 1900;
+				float height = 0;
 				try {
-					height = Integer.valueOf(textboxHeight.getText());
+					height = Float.valueOf(textboxHeight.getText());
 				} catch (NumberFormatException exception) {
-					JOptionPane.showMessageDialog(null, "請輸入正確的出生年份");
+				}
+				if (height <= 0) {
+					JOptionPane.showMessageDialog(null, "請輸入正確數值的身高");
 					return;
 				}
-				int weight = 1900;
+				float weight = 0;
 				try {
-					weight = Integer.valueOf(textboxWeight.getText());
+					weight = Float.valueOf(textboxWeight.getText());
 				} catch (NumberFormatException exception) {
-					JOptionPane.showMessageDialog(null, "請輸入正確的體重");
+				}
+				if (weight <= 0) {
+					JOptionPane.showMessageDialog(null, "請輸入正確數值的體重");
 					return;
 				}
-				//MainScreen.getInstance().add(new DataAnalyzePanel());
+				{
+					// 日期檢測
+					String Date = textboxDate.getText();
+					int[] cday = new int[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+					int year = 1900;
+					if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)) {
+						cday[1] = 29;
+					}
+					int month = 1;
+					int day = 1;
+				}
+				JSONObject user = DataManager.instance.getUserData();
+				MainScreen.getInstance()
+						.add(new DataAnalyzePanel(user.getInt("gender"), 2017 - user.getInt("year"), height, weight));
 			}
-			
+
 		});
 
 		this.add(labelHeight);
 		this.add(tipHeight);
 		this.add(textboxHeight);
-		
+
 		this.add(labelWeight);
 		this.add(tipWeight);
 		this.add(textboxWeight);
-		
+
 		this.add(labelDate);
 		this.add(tipDate);
-		
+
 		this.add(textboxDate);
 		this.add(back);
 		this.add(add);

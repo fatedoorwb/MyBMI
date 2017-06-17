@@ -28,6 +28,11 @@ public class DataManager {
 		file = new File(MainScreen.getCurrentFile(), "data/user.json");
 		return file.exists();
 	}
+	
+	public JSONObject getUserData(){
+		File file = new File(MainScreen.getCurrentFile(), "data/user.json");
+		return read(file);
+	}
 
 	public boolean wirte(File file, JSONObject json) {
 		if (!file.exists()) {
