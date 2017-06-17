@@ -16,6 +16,7 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import idv.kuchu.mybmi.component.FirstPanel;
+import idv.kuchu.mybmi.component.MainPanel;
 import idv.kuchu.mybmi.component.NewDataPanel;
 import idv.kuchu.mybmi.data.DataManager;
 
@@ -104,13 +105,13 @@ public class MainScreen extends JFrame {
 	public MainScreen() {
 		super();
 		this.setTitle("體重記錄小幫手");
-		this.setBounds(0, 0, MainScreen.SCREEN_W, MainScreen.SCREEN_H);
+		this.setBounds(100, 100, MainScreen.SCREEN_W, MainScreen.SCREEN_H);
+		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.addF(new MainPanel());
 		if (!DataManager.instance.hasUserData()) {
 			FirstPanel obj = new FirstPanel();
 			this.addF(obj);
-		}else{
-			this.addF(new NewDataPanel());
 		}
 		this.setVisible(true);
 		new Thread(new SystemUpdate()).start();

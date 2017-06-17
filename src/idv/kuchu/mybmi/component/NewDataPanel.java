@@ -25,23 +25,23 @@ public class NewDataPanel extends Panel {
 
 	public NewDataPanel() {
 
-		JLabel lableHeight = new JLabel("身高");
-		lableHeight.setFont(font);
-		lableHeight.setBounds(X, Y, 64, 64);
+		JLabel labelHeight = new JLabel("身高");
+		labelHeight.setFont(font);
+		labelHeight.setBounds(X, Y, 64, 64);
 		JTextField textboxHeight = new JTextField();
 		textboxHeight.setFont(font);
 		textboxHeight.setBounds(100 + X, Y, 300, 64);
 
-		JLabel lableWeight = new JLabel("體重");
-		lableWeight.setFont(font);
-		lableWeight.setBounds(X, 100 + Y, 64, 64);
+		JLabel labelWeight = new JLabel("體重");
+		labelWeight.setFont(font);
+		labelWeight.setBounds(X, 100 + Y, 64, 64);
 		JTextField textboxWeight = new JTextField();
 		textboxWeight.setFont(font);
 		textboxWeight.setBounds(100 + X, 100 + Y, 300, 64);
 
-		JLabel lableDate = new JLabel("日期");
-		lableDate.setFont(font);
-		lableDate.setBounds(X, 200 + Y, 64, 64);
+		JLabel labelDate = new JLabel("日期");
+		labelDate.setFont(font);
+		labelDate.setBounds(X, 200 + Y, 64, 64);
 		JTextField textboxDate = new JTextField();
 		textboxDate.setFont(font);
 		textboxDate.setBounds(100 + X, 200 + Y, 300, 64);
@@ -54,11 +54,11 @@ public class NewDataPanel extends Panel {
 		add.setFont(font);
 		add.setBounds(BX, BY, 200, 64);
 
-		this.add(lableHeight);
+		this.add(labelHeight);
 		this.add(textboxHeight);
-		this.add(lableWeight);
+		this.add(labelWeight);
 		this.add(textboxWeight);
-		this.add(lableDate);
+		this.add(labelDate);
 		this.add(tipDate);
 		this.add(textboxDate);
 		this.add(add);
