@@ -61,6 +61,10 @@ public class MainScreen extends JFrame {
 		String strDate = sdFormat.format(date);
 		return strDate;
 	}
+	
+	public static MainScreen getInstance(){
+		return Main.core;
+	}
 
 	public static final int SCREEN_W = 600, SCREEN_H = 500;
 	private boolean run = true;
@@ -98,7 +102,7 @@ public class MainScreen extends JFrame {
 
 	public MainScreen() {
 		super();
-		this.setTitle("體位記錄小幫手");
+		this.setTitle("體重記錄小幫手");
 		this.setBounds(0, 0, MainScreen.SCREEN_W, MainScreen.SCREEN_H);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		if (!DataManager.instance.hasUserData()) {
