@@ -33,24 +33,24 @@ public class FirstPanel extends Panel {
 		super();
 		MainScreen.log("Load First Panel...");
 		// -----
-		JLabel lableGender = new JLabel("性別");
-		lableGender.setFont(font);
-		lableGender.setBounds(X, Y, 64, 64);
+		JLabel labelGender = new JLabel("性別");
+		labelGender.setFont(font);
+		labelGender.setBounds(X, Y, 64, 64);
 		String[] chooseGender = new String[] { "請選擇", "男", "女" };
 		JComboBox<String> selectGender = new JComboBox<String>(chooseGender);
 		selectGender.setFont(font);
 		selectGender.setBounds(100 + X, Y, 300, 64);
 
-		JLabel lableName = new JLabel("姓名");
-		lableName.setFont(font);
-		lableName.setBounds(X, 100 + Y, 64, 64);
+		JLabel labelName = new JLabel("姓名");
+		labelName.setFont(font);
+		labelName.setBounds(X, 100 + Y, 64, 64);
 		JTextField textboxName = new JTextField();
 		textboxName.setBounds(100 + X, 100 + Y, 300, 64);
 		textboxName.setFont(font);
 
-		JLabel lableBirthday = new JLabel("生年");
-		lableBirthday.setFont(font);
-		lableBirthday.setBounds(X, 200 + Y, 64, 64);
+		JLabel labelBirthday = new JLabel("生年");
+		labelBirthday.setFont(font);
+		labelBirthday.setBounds(X, 200 + Y, 64, 64);
 		JTextField textboxBirthdayY = new JTextField();
 		textboxBirthdayY.setFont(font);
 		textboxBirthdayY.setBounds(100 + X, 200 + Y, 300, 64);
@@ -96,11 +96,11 @@ public class FirstPanel extends Panel {
 
 		});
 		// -----
-		this.add(lableGender);
+		this.add(labelGender);
 		this.add(selectGender);
-		this.add(lableName);
+		this.add(labelName);
 		this.add(textboxName);
-		this.add(lableBirthday);
+		this.add(labelBirthday);
 		this.add(textboxBirthdayY);
 
 		this.add(finish);
