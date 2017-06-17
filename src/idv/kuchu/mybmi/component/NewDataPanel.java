@@ -107,7 +107,7 @@ public class NewDataPanel extends Panel {
 					String[] Dates;
 					Dates = Date.split("/");
 					if(Dates.length!=3)
-						Dates = Date.split("\\");
+						Dates = Date.split("\\\\");
 					if(Dates.length!=3)
 						Dates = Date.split("-");
 					if(Dates.length!=3)
@@ -153,7 +153,6 @@ public class NewDataPanel extends Panel {
 						}
 						return;
 					}
-					
 				}
 				JSONObject user = DataManager.instance.getUserData();
 				try {
