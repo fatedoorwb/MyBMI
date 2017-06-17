@@ -86,10 +86,10 @@ public class FirstPanel extends Panel {
 				JSONObject object = new JSONObject();
 				try {
 					object.put("name", Name);
-					object.put("gender", Name);
+					object.put("gender", Gender);
 					object.put("year", year);
-					DataManager.instance.wirte(new File(MainScreen.getCurrentFile(), "data/user.json"),object);
-					JOptionPane.showMessageDialog(null, "初始資料已記錄，歡迎使用本系統");
+					if(DataManager.instance.wirte(new File(MainScreen.getCurrentFile(), "data/user.json"),object))
+						JOptionPane.showMessageDialog(null, "初始資料已記錄，歡迎使用本系統");
 					MainScreen.getInstance().disposeF();
 					//MainScreen.getInstance().addF(new FirstPanel());
 				} catch (JSONException exception) {

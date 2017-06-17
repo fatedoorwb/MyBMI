@@ -1,7 +1,14 @@
 package idv.kuchu.mybmi.data;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import idv.kuchu.mybmi.MainScreen;
@@ -22,12 +29,50 @@ public class DataManager {
 		return file.exists();
 	}
 
-	public void wirte(File file, JSONObject json) {
-
+	public boolean wirte(File file, JSONObject json) {
+		if (!file.exists()) {
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null, e.toString());
+				return false;
+			}
+		}
+		if (file.isDirectory())
+			return false;
+		try {
+			FileWriter fw = new FileWriter(file);
+			fw.write(json.toString());
+			fw.close();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, e.toString());
+			return false;
+		}
+		return true;
 	}
 
 	public JSONObject read(File file) {
-		return null;
+		if (!file.exists() || file.isDirectory()) {
+			return null;
+		}
+		try {
+			FileReader fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+			String result = "";
+			while (br.ready()) {
+				result += br.readLine();
+			}
+			fr.close();
+			try {
+				return new JSONObject(result);
+			} catch (JSONException e) {
+				JOptionPane.showMessageDialog(null, e.toString());
+				return null;
+			}
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, e.toString());
+			return null;
+		}
 	}
 
 }
