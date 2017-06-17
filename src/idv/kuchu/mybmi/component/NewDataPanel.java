@@ -5,11 +5,6 @@ import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.text.ParseException;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -105,19 +100,19 @@ public class NewDataPanel extends Panel {
 				{
 					// 日期檢測
 					String Date = textboxDate.getText();
-					if(Date.length()<1){
+					if (Date.length() < 1) {
 						JOptionPane.showMessageDialog(null, "日期格式不正確");
 						return;
 					}
 					String[] Dates;
 					Dates = Date.split("/");
-					if(Dates.length!=3)
+					if (Dates.length != 3)
 						Dates = Date.split("\\\\");
-					if(Dates.length!=3)
+					if (Dates.length != 3)
 						Dates = Date.split("-");
-					if(Dates.length!=3)
+					if (Dates.length != 3)
 						Dates = Date.split(" ");
-					if(Dates.length!=3){
+					if (Dates.length != 3) {
 						JOptionPane.showMessageDialog(null, "日期格式不正確");
 						return;
 					}
@@ -143,14 +138,14 @@ public class NewDataPanel extends Panel {
 						JOptionPane.showMessageDialog(null, "日期格式不正確");
 						return;
 					}
-					if(month<1||month>12){
+					if (month < 1 || month > 12) {
 						JOptionPane.showMessageDialog(null, "月份數值不正確");
 						return;
 					}
-					if(day<1||day>cday[month-1]){
-						if(month==2&&day==29){
+					if (day < 1 || day > cday[month - 1]) {
+						if (month == 2 && day == 29) {
 							JOptionPane.showMessageDialog(null, "不是潤年的年份");
-						}else{
+						} else {
 							JOptionPane.showMessageDialog(null, "日期數值不正確");
 						}
 						return;
@@ -159,11 +154,11 @@ public class NewDataPanel extends Panel {
 				JSONObject user = DataManager.instance.getUserData();
 				try {
 					JSONObject objects = new JSONObject();
-					if(DataManager.instance.hasData()){
+					if (DataManager.instance.hasData()) {
 						objects = DataManager.instance.getData();
 					}
 					JSONArray array = new JSONArray();
-					if(objects.has("content")){
+					if (objects.has("content")) {
 						array = objects.getJSONArray("content");
 					}
 					JSONObject object = new JSONObject();
@@ -174,11 +169,11 @@ public class NewDataPanel extends Panel {
 					object.put("day", day);
 					array.put(object);
 					objects.put("content", array);
-					DataManager.instance.wirte(new File(MainScreen.getCurrentFile(), "data/data.json"),objects);
-						
+					DataManager.instance.wirte(new File(MainScreen.getCurrentFile(), "data/data.json"), objects);
+
 					MainScreen.getInstance().disposeF();
-					MainScreen.getInstance()
-							.addF(new DataAnalyzePanel(user.getInt("gender"), 2017 - user.getInt("year"), height, weight));
+					MainScreen.getInstance().addF(
+							new DataAnalyzePanel(user.getInt("gender"), 2017 - user.getInt("year"), height, weight));
 				} catch (JSONException exception) {
 					JOptionPane.showMessageDialog(null, exception.toString());
 					return;

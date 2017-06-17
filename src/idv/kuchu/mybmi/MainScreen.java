@@ -17,13 +17,13 @@ import javax.swing.JFrame;
 
 import idv.kuchu.mybmi.component.FirstPanel;
 import idv.kuchu.mybmi.component.MainPanel;
-import idv.kuchu.mybmi.component.NewDataPanel;
 import idv.kuchu.mybmi.data.DataManager;
 
 public class MainScreen extends JFrame {
 
 	/**
 	 * 得到路徑
+	 * 
 	 * @param path
 	 * @return
 	 * @throws Exception
@@ -34,6 +34,7 @@ public class MainScreen extends JFrame {
 
 	/**
 	 * 取得根目錄路徑
+	 * 
 	 * @return
 	 */
 	public static String getCurrentDirectory() {
@@ -44,6 +45,7 @@ public class MainScreen extends JFrame {
 
 	/**
 	 * 取得根目錄
+	 * 
 	 * @return
 	 */
 	public static File getCurrentFile() {
@@ -52,6 +54,7 @@ public class MainScreen extends JFrame {
 
 	/**
 	 * 閱讀串流
+	 * 
 	 * @param path
 	 * @return
 	 * @throws Exception
@@ -71,6 +74,7 @@ public class MainScreen extends JFrame {
 
 	/**
 	 * 顯示日誌
+	 * 
 	 * @param obj
 	 */
 	public static void log(Object obj) {
@@ -79,6 +83,7 @@ public class MainScreen extends JFrame {
 
 	/**
 	 * 顯示錯誤
+	 * 
 	 * @param obj
 	 */
 	public static void err(Object obj) {
@@ -87,6 +92,7 @@ public class MainScreen extends JFrame {
 
 	/**
 	 * 取得現在時間
+	 * 
 	 * @return
 	 */
 	private static String getTime() {
@@ -98,6 +104,7 @@ public class MainScreen extends JFrame {
 
 	/**
 	 * 取得本物件
+	 * 
 	 * @return
 	 */
 	public static MainScreen getInstance() {
@@ -120,6 +127,7 @@ public class MainScreen extends JFrame {
 
 	/**
 	 * 堆疊
+	 * 
 	 * @param panel
 	 */
 	public void addF(Panel panel) {
@@ -142,6 +150,7 @@ public class MainScreen extends JFrame {
 
 	/**
 	 * 取得現在面板
+	 * 
 	 * @return
 	 */
 	public Panel getF() {

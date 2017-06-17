@@ -18,26 +18,26 @@ public class AboutPanel extends Panel {
 
 	int X = ((MainScreen.SCREEN_W - 16) - 400) / 2 - 8;
 	int Y = 32;
-	
+
 	int BX = ((MainScreen.SCREEN_W - 16) - 200) / 2 - 8;
 	int BY = ((MainScreen.SCREEN_H - 38) - 64) - 50;
-	
-	public AboutPanel(){
+
+	public AboutPanel() {
 		super();
 		MainScreen.log("Load About Panel...");
 		List<String> member = new ArrayList<String>();
-		member.add("10515540"+"        "+"梨水竹");
-		member.add("105021033"+"      "+"黃苡珊");
-		member.add("105021008"+"      "+"陳畯程");
-		member.add("105021009"+"      "+"陳俞儒");
+		member.add("10515540" + "        " + "梨水竹");
+		member.add("105021033" + "      " + "黃苡珊");
+		member.add("105021008" + "      " + "陳畯程");
+		member.add("105021009" + "      " + "陳俞儒");
 
-		for(int i=0;i<member.size()&&i<4;i++){
+		for (int i = 0; i < member.size() && i < 4; i++) {
 			JLabel label = new JLabel(member.get(i));
 			label.setFont(font);
-			label.setBounds(X+60, Y+80*i, 280, 64);
+			label.setBounds(X + 60, Y + 80 * i, 280, 64);
 			this.add(label);
 		}
-		
+
 		JButton close = new JButton("回上頁");
 		close.setFont(font);
 		close.setBounds(BX, BY, 200, 64);
@@ -47,7 +47,7 @@ public class AboutPanel extends Panel {
 			public void actionPerformed(ActionEvent e) {
 				MainScreen.getInstance().disposeF();
 			}
-			
+
 		});
 		this.add(close);
 		MainScreen.log("Load About Panel Finish.");
