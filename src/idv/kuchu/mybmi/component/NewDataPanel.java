@@ -100,6 +100,10 @@ public class NewDataPanel extends Panel {
 				{
 					// 日期檢測
 					String Date = textboxDate.getText();
+					if(Date.length()<1){
+						JOptionPane.showMessageDialog(null, "日期格式不正確");
+						return;
+					}
 					String[] Dates;
 					Dates = Date.split("/");
 					if(Dates.length!=3)
@@ -137,6 +141,19 @@ public class NewDataPanel extends Panel {
 						JOptionPane.showMessageDialog(null, "日期格式不正確");
 						return;
 					}
+					if(month<1||month>12){
+						JOptionPane.showMessageDialog(null, "月份數值不正確");
+						return;
+					}
+					if(day<1||day>cday[month-1]){
+						if(month==2&&day==29){
+							JOptionPane.showMessageDialog(null, "不是潤年的年份");
+						}else{
+							JOptionPane.showMessageDialog(null, "日期數值不正確");
+						}
+						return;
+					}
+					
 				}
 				JSONObject user = DataManager.instance.getUserData();
 				try {
