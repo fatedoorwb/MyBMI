@@ -33,6 +33,14 @@ public class MainPanel extends Panel {
 		JButton BTR = new JButton("整體分析");
 		BTR.setFont(font);
 		BTR.setBounds(BX+232, BY-228, 200, 200);
+		BTR.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+			
+		});
 		JButton BBL = new JButton("尚無功能");
 		BBL.setFont(font);
 		BBL.setBounds(BX, BY, 200, 200);
