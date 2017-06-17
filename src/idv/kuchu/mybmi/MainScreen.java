@@ -77,12 +77,12 @@ public class MainScreen extends JFrame {
 		this.removeFAll();
 		panel.setLayout(null);
 		this.panels.add(panel);
-		this.add(panel);
+		this.getContentPane().add(panel);
 	}
 
 	private void removeFAll() {
 		for (Panel panel : panels) {
-			this.remove(panel);
+			this.getContentPane().remove(panel);
 		}
 	}
 
@@ -95,7 +95,7 @@ public class MainScreen extends JFrame {
 		if (this.panels.size() > 0) {
 			this.panels.remove(getF());
 			if (this.panels.size() > 0) {
-				this.add(getF());
+				this.getContentPane().add(getF());
 			}
 		}
 	}
@@ -131,6 +131,7 @@ public class MainScreen extends JFrame {
 				try {
 					Thread.sleep(50);
 					repaint();
+					revalidate();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
