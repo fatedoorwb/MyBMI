@@ -16,7 +16,7 @@ import idv.kuchu.mybmi.MainScreen;
 
 public class FirstPanel extends Panel {
 	
-	Font font = new Font("微軟正黑體", Font.BOLD, 32);
+	Font font = new Font("微軟正黑體", Font.BOLD, 28);
 	
 	int X = ((MainScreen.SCREEN_W-16)-400)/2-8;
 	int Y = 32;
@@ -46,9 +46,16 @@ public class FirstPanel extends Panel {
 		JLabel  lableBirthday = new JLabel ("生日");
 		lableBirthday.setFont(font);
 		lableBirthday.setBounds(X, 200+Y, 64, 64);
-		JTextField  textboxBirthday = new JTextField();
-		textboxBirthday.setFont(font);
-		textboxBirthday.setBounds(100+X, 200+Y, 300, 64);
+		JTextField textboxBirthdayY = new JTextField(); 
+		textboxBirthdayY.setFont(font);
+		textboxBirthdayY.setBounds(100+X, 200+Y, 100, 64);
+		String[] chooseBirthdayM = new String[]{"一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"};
+		JComboBox<String> selectBirthdayM = new JComboBox<String>(chooseBirthdayM); 
+		selectBirthdayM.setFont(font);
+		selectBirthdayM.setBounds(200+X, 200+Y, 100, 64);
+		JTextField textboxBirthdayD = new JTextField(); 
+		textboxBirthdayD.setFont(font);
+		textboxBirthdayD.setBounds(300+X, 200+Y, 100, 64);
 		
 		JButton finish = new JButton("完成");
 		finish.setFont(font);
@@ -59,7 +66,9 @@ public class FirstPanel extends Panel {
 		this.add(lableGender);
 		this.add(selectGender);
 		this.add(lableBirthday);
-		this.add(textboxBirthday);
+		this.add(textboxBirthdayY);
+		this.add(selectBirthdayM);
+		this.add(textboxBirthdayD);
 		
 		this.add(finish);
 		MainScreen.log("Load First Panel Finish.");
@@ -67,7 +76,6 @@ public class FirstPanel extends Panel {
 	
 	@Override
 	public void paint(Graphics g) {
-		MainScreen.log("-----");
 		super.paint(g);
 	}
 

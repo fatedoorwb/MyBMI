@@ -101,11 +101,11 @@ public class MainScreen extends JFrame {
 		this.setTitle("體位記錄小幫手");
 		this.setBounds(0, 0, MainScreen.SCREEN_W, MainScreen.SCREEN_H);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setVisible(true);
 		if (!DataManager.instance.hasUserData()) {
 			FirstPanel obj = new FirstPanel();
-			this.add(obj);
+			this.addF(obj);
 		}
+		this.setVisible(true);
 		new Thread(new SystemUpdate()).start();
 	}
 
@@ -117,7 +117,6 @@ public class MainScreen extends JFrame {
 		screen_g2d.setColor(Color.white);
 		screen_g2d.fillRect(0, 0, SCREEN_W, SCREEN_H);
 		super.paint(screen_g2d);
-
 		g.drawImage(screen, 0, 0, null);
 	}
 
