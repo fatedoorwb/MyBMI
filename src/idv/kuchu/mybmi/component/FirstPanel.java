@@ -45,8 +45,8 @@ public class FirstPanel extends Panel {
 		labelName.setFont(font);
 		labelName.setBounds(X, 100 + Y, 64, 64);
 		JTextField textboxName = new JTextField();
-		textboxName.setBounds(100 + X, 100 + Y, 300, 64);
 		textboxName.setFont(font);
+		textboxName.setBounds(100 + X, 100 + Y, 300, 64);
 
 		JLabel labelBirthday = new JLabel("生年");
 		labelBirthday.setFont(font);
