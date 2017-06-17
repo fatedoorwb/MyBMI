@@ -77,10 +77,13 @@ public class NewDataPanel extends Panel {
 
 		this.add(labelHeight);
 		this.add(textboxHeight);
+		
 		this.add(labelWeight);
 		this.add(textboxWeight);
+		
 		this.add(labelDate);
 		this.add(tipDate);
+		
 		this.add(textboxDate);
 		this.add(back);
 		this.add(add);
