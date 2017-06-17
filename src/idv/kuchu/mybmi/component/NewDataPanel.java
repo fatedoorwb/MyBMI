@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.text.ParseException;
 
 import java.text.SimpleDateFormat;
@@ -14,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -97,6 +99,9 @@ public class NewDataPanel extends Panel {
 					JOptionPane.showMessageDialog(null, "請輸入正確數值的體重");
 					return;
 				}
+				int year = 1900;
+				int month = 1;
+				int day = 1;
 				{
 					// 日期檢測
 					String Date = textboxDate.getText();
@@ -117,7 +122,6 @@ public class NewDataPanel extends Panel {
 						return;
 					}
 					int[] cday = new int[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-					int year = 1900;
 					try {
 						year = Integer.valueOf(Dates[0]);
 					} catch (NumberFormatException exception) {
@@ -127,14 +131,12 @@ public class NewDataPanel extends Panel {
 					if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)) {
 						cday[1] = 29;
 					}
-					int month = 1;
 					try {
 						month = Integer.valueOf(Dates[1]);
 					} catch (NumberFormatException exception) {
 						JOptionPane.showMessageDialog(null, "日期格式不正確");
 						return;
 					}
-					int day = 1;
 					try {
 						day = Integer.valueOf(Dates[2]);
 					} catch (NumberFormatException exception) {
@@ -156,6 +158,25 @@ public class NewDataPanel extends Panel {
 				}
 				JSONObject user = DataManager.instance.getUserData();
 				try {
+					JSONObject objects = new JSONObject();
+					if(DataManager.instance.hasData()){
+						objects = DataManager.instance.getData();
+					}
+					JSONArray array = new JSONArray();
+					if(objects.has("content")){
+						array = objects.getJSONArray("content");
+					}
+					JSONObject object = new JSONObject();
+					object.put("height", height);
+					object.put("weight", weight);
+					object.put("year", year);
+					object.put("month", month);
+					object.put("day", day);
+					array.put(object);
+					objects.put("content", array);
+					DataManager.instance.wirte(new File(MainScreen.getCurrentFile(), "data/data.json"),objects);
+						
+					MainScreen.getInstance().disposeF();
 					MainScreen.getInstance()
 							.addF(new DataAnalyzePanel(user.getInt("gender"), 2017 - user.getInt("year"), height, weight));
 				} catch (JSONException exception) {

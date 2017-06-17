@@ -26,11 +26,21 @@ public class DataManager {
 		if (!file.exists() || !file.isDirectory())
 			file.mkdirs();
 		file = new File(MainScreen.getCurrentFile(), "data/user.json");
-		return file.exists();
+		return file.exists() && !file.isDirectory();
 	}
-	
-	public JSONObject getUserData(){
+
+	public JSONObject getUserData() {
 		File file = new File(MainScreen.getCurrentFile(), "data/user.json");
+		return read(file);
+	}
+
+	public boolean hasData() {
+		File file = new File(MainScreen.getCurrentFile(), "data/data.json");
+		return file.exists() && !file.isDirectory();
+	}
+
+	public JSONObject getData() {
+		File file = new File(MainScreen.getCurrentFile(), "data/data.json");
 		return read(file);
 	}
 
