@@ -61,8 +61,8 @@ public class MainScreen extends JFrame {
 		String strDate = sdFormat.format(date);
 		return strDate;
 	}
-	
-	public static MainScreen getInstance(){
+
+	public static MainScreen getInstance() {
 		return Main.core;
 	}
 
