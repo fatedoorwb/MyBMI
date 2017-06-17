@@ -100,13 +100,43 @@ public class NewDataPanel extends Panel {
 				{
 					// 日期檢測
 					String Date = textboxDate.getText();
+					String[] Dates;
+					Dates = Date.split("/");
+					if(Dates.length!=3)
+						Dates = Date.split("\\");
+					if(Dates.length!=3)
+						Dates = Date.split("-");
+					if(Dates.length!=3)
+						Dates = Date.split(" ");
+					if(Dates.length!=3){
+						JOptionPane.showMessageDialog(null, "日期格式不正確");
+						return;
+					}
 					int[] cday = new int[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 					int year = 1900;
+					try {
+						year = Integer.valueOf(Dates[0]);
+					} catch (NumberFormatException exception) {
+						JOptionPane.showMessageDialog(null, "日期格式不正確");
+						return;
+					}
 					if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)) {
 						cday[1] = 29;
 					}
 					int month = 1;
+					try {
+						month = Integer.valueOf(Dates[1]);
+					} catch (NumberFormatException exception) {
+						JOptionPane.showMessageDialog(null, "日期格式不正確");
+						return;
+					}
 					int day = 1;
+					try {
+						day = Integer.valueOf(Dates[2]);
+					} catch (NumberFormatException exception) {
+						JOptionPane.showMessageDialog(null, "日期格式不正確");
+						return;
+					}
 				}
 				JSONObject user = DataManager.instance.getUserData();
 				try {
