@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 
@@ -26,6 +27,7 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import idv.kuchu.mybmi.MainScreen;
+import idv.kuchu.mybmi.data.DataManager;
 import idv.kuchu.mybmi.data.DateObject;
 
 public class AllDataAnalyzePanel extends Panel {
@@ -36,6 +38,10 @@ public class AllDataAnalyzePanel extends Panel {
 
 	int BX = ((MainScreen.SCREEN_W - 16) - 200) / 2 - 8;
 	int BY = ((MainScreen.SCREEN_H - 38) - 64) - 50;
+	
+	int year;
+	int month;
+	int day;
 
 	public AllDataAnalyzePanel() {
 
@@ -47,12 +53,23 @@ public class AllDataAnalyzePanel extends Panel {
 		BodyFat.setFont(font);
 		BodyFat.setBounds(BX + 116, Y, 200, 64);
 
+		Map<String, DateObject> objects = DataManager.instance.getDateObjects();
+		if(!objects.containsKey(getDate(year, month, day,0))){
+			
+		}
 		// 圖
+		year = DateObject.getNowYear();
+		month = DateObject.getNowMonth();
+		day = DateObject.getNowDay();
 		float[] v = new float[] { -1, -1, -1, -1, -1, -1, -1 };
 		{
-			v[0] = 21;
-			v[3] = 19;
-			v[6] = 21;
+			for(int i=0;i<7;i++){
+				if(objects.containsKey(getDate(year, month, day, i - 6))){
+					DateObject object = objects.get(getDate(year, month, day, i - 6));
+					v[i] = DataAnalyzePanel.BMI(object.height, object.weight);
+				}
+			}
+			
 		}
 		CategoryDataset dataset = setDataset(v);
 		JFreeChart chart = createChart(dataset, "BMI");
@@ -89,11 +106,6 @@ public class AllDataAnalyzePanel extends Panel {
 		List<Integer> lv = new ArrayList<Integer>();
 
 		String[] s = new String[7];
-
-		Calendar c = Calendar.getInstance();
-		int year = c.get(Calendar.YEAR);
-		int month = c.get(Calendar.MONTH) + 1;
-		int day = c.get(Calendar.DAY_OF_MONTH);
 
 		for (int i = 0; i < 7; i++) {
 			if (v[i] == -1) {

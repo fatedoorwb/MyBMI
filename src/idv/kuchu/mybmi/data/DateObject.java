@@ -1,9 +1,34 @@
 package idv.kuchu.mybmi.data;
 
+import java.util.Calendar;
+
 public class DateObject {
-	
-	public static String getDate(int year,int month,int day){
-		return DateObject.getYear(year)+DateObject.getMonth(month)+DateObject.getDay(day);
+
+	public static String getNow() {
+		Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH) + 1;
+		int day = c.get(Calendar.DAY_OF_MONTH);
+		return DateObject.getDate(year, month, day);
+	}
+
+	public static int getNowYear() {
+		Calendar c = Calendar.getInstance();
+		return c.get(Calendar.YEAR);
+	}
+
+	public static int getNowMonth() {
+		Calendar c = Calendar.getInstance();
+		return c.get(Calendar.MONTH) + 1;
+	}
+
+	public static int getNowDay() {
+		Calendar c = Calendar.getInstance();
+		return c.get(Calendar.DAY_OF_MONTH);
+	}
+
+	public static String getDate(int year, int month, int day) {
+		return DateObject.getYear(year) + DateObject.getMonth(month) + DateObject.getDay(day);
 	}
 
 	public static String getYear(int year) {

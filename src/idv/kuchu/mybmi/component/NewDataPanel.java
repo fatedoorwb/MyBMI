@@ -173,7 +173,7 @@ public class NewDataPanel extends Panel {
 
 					MainScreen.getInstance().disposeF();
 					MainScreen.getInstance().addF(
-							new DataAnalyzePanel(user.getInt("gender"), 2017 - user.getInt("year"), height, weight));
+							new DataAnalyzePanel(user.getInt("gender"), year - user.getInt("year"), height, weight));
 				} catch (JSONException exception) {
 					JOptionPane.showMessageDialog(null, exception.toString());
 					return;

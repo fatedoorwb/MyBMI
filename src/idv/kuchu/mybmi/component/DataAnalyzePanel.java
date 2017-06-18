@@ -27,9 +27,7 @@ public class DataAnalyzePanel extends Panel {
 		labelBMI.setFont(font);
 		labelBMI.setBounds(X, Y, 164, 64);
 
-		float v1 = weight / ((height / 100) * (height / 100));
-
-		JTextField showBMI = new JTextField(String.valueOf(((int) (v1 * 100)) / 100f));// 計算
+		JTextField showBMI = new JTextField(String.valueOf(DataAnalyzePanel.BMI(height, weight)));// 計算
 		showBMI.setFont(font);
 		showBMI.setEditable(false);
 		showBMI.setBounds(200 + X, Y, 200, 64);
@@ -38,7 +36,7 @@ public class DataAnalyzePanel extends Panel {
 		labelBodyFat.setFont(font);
 		labelBodyFat.setBounds(X, 100 + Y, 164, 64);
 		JTextField showBodyFat = new JTextField(
-				String.valueOf(((int) ((1.2 * v1 + 0.23 * age - 5.4 - 10.8 * gender) * 100)) / 100f));// 計算
+				String.valueOf(DataAnalyzePanel.BF(gender, age, height, weight)));// 計算
 		showBodyFat.setFont(font);
 		showBodyFat.setEditable(false);
 		showBodyFat.setBounds(200 + X, 100 + Y, 200, 64);
@@ -82,6 +80,14 @@ public class DataAnalyzePanel extends Panel {
 
 		this.add(back);
 
+	}
+	
+	public static float BMI(float height,float weight){
+		 return ((int) ((weight / ((height / 100) * (height / 100))) * 100)) / 100f;
+	}
+	
+	public static float BF(float gender,float age,float height,float weight){
+		 return ((int) ((1.2 * DataAnalyzePanel.BMI(height, weight) + 0.23 * age - 5.4 - 10.8 * gender) * 100)) / 100f;
 	}
 
 }
