@@ -53,7 +53,7 @@ public class DataManager {
 	public Map<String, DateObject> getDateObjects() {
 		Map<String, DateObject> result = new HashMap<String, DateObject>();
 		JSONObject objects = getData();
-		if (objects.has("content")) {
+		if (objects != null && objects.has("content")) {
 			try {
 				JSONArray array = objects.getJSONArray("content");
 				for (int index = 0; index < array.length(); index++) {

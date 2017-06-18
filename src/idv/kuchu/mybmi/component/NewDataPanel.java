@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import idv.kuchu.mybmi.MainScreen;
 import idv.kuchu.mybmi.data.DataManager;
+import idv.kuchu.mybmi.data.DateObject;
 
 public class NewDataPanel extends Panel {
 
@@ -61,7 +62,15 @@ public class NewDataPanel extends Panel {
 		JButton getTime = new JButton("現在時間");
 		getTime.setFont(font);
 		getTime.setBounds(290+X, 200+Y, 150, 64);
-		
+		getTime.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String date = DateObject.getNow();
+				textboxDate.setText(date.substring(0,4)+"/"+date.substring(4,6)+"/"+date.substring(6,8));
+			}
+
+		});
 		
 
 		JButton back = new JButton("取消");

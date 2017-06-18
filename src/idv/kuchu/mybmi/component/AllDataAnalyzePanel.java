@@ -100,9 +100,16 @@ public class AllDataAnalyzePanel extends Panel {
 				{
 					String end = "";
 					for (int i = 0; i < 7; i++) {
-						if (objects.containsKey(getDate(year, month, day, i - 6))) {
-							DateObject object = objects.get(getDate(year, month, day, i - 6));
-							v[i] = DataAnalyzePanel.BMI(object.height, object.weight);
+						String date = getDate(year, month, day, i - 6);
+						if (objects.containsKey(date)) {
+							DateObject object = objects.get(date);
+							if (type == 1) {
+								v[i] = DataAnalyzePanel.BMI(object.height, object.weight);
+							}else{
+								v[i] = DataAnalyzePanel.BF(user.getInt("gender"),
+										Integer.valueOf(date.substring(0, 4)) - user.getInt("year"), object.height,
+										object.weight);
+							}
 						}
 					}
 					if (v[0] == -1) {
@@ -131,7 +138,7 @@ public class AllDataAnalyzePanel extends Panel {
 					}
 				}
 				CategoryDataset dataset = setDataset(v);
-				JFreeChart chart = createChart(dataset, "BMI");
+				JFreeChart chart = createChart(dataset, (type==1?"BMI":type==2?"體脂":"???"));
 				ChartPanel chartPanel = new ChartPanel(chart);
 				chartPanel.setBounds(X, Y + 100, 432, 200);
 
