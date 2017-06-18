@@ -59,6 +59,7 @@ public class DateObject {
 			return false;
 		if (month1 < month2)
 			return true;
+		System.out.println(day1+">"+day2);
 		if (day1 > day2)
 			return false;
 		return true;

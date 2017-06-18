@@ -94,6 +94,7 @@ public class AllDataAnalyzePanel extends Panel {
 		}
 		// 圖
 		if (type > 0) {
+			List<Integer> lv = new ArrayList<Integer>();
 			try {
 				JSONObject user = DataManager.instance.getUserData();
 				float[] v = new float[] { -1, -1, -1, -1, -1, -1, -1 };
@@ -105,7 +106,7 @@ public class AllDataAnalyzePanel extends Panel {
 							DateObject object = objects.get(date);
 							if (type == 1) {
 								v[i] = DataAnalyzePanel.BMI(object.height, object.weight);
-							}else{
+							} else {
 								v[i] = DataAnalyzePanel.BF(user.getInt("gender"),
 										Integer.valueOf(date.substring(0, 4)) - user.getInt("year"), object.height,
 										object.weight);
@@ -113,11 +114,13 @@ public class AllDataAnalyzePanel extends Panel {
 						}
 					}
 					if (v[0] == -1) {
+						lv.add(0);
 						Iterator<Entry<String, DateObject>> iterator = objects.entrySet().iterator();
 						Entry<String, DateObject> entry;
+						String date = getDate(year, month, day, -6);
 						while (iterator.hasNext()) {
 							entry = iterator.next();
-							if (DateObject.DateGap(entry.getKey(), getDate(year, month, day, 6)) > 0) {
+							if (DateObject.DateGap(entry.getKey(), date) > 0) {
 								if (end.length() != 8) {
 									end = entry.getKey();
 								} else if (DateObject.DateGap(entry.getKey(), end) == -1) {
@@ -137,8 +140,9 @@ public class AllDataAnalyzePanel extends Panel {
 						}
 					}
 				}
-				CategoryDataset dataset = setDataset(v);
-				JFreeChart chart = createChart(dataset, (type==1?"BMI":type==2?"體脂":"???"));
+				CategoryDataset dataset = setDataset(v, lv);
+				JFreeChart chart = createChart(dataset, (type == 1 ? "BMI" : (type == 2 ? "體脂" : "???")),
+						(type == 2 ? "(%)" : ""), type);
 				ChartPanel chartPanel = new ChartPanel(chart);
 				chartPanel.setBounds(X, Y + 100, 432, 200);
 
@@ -170,25 +174,25 @@ public class AllDataAnalyzePanel extends Panel {
 
 	}
 
-	private CategoryDataset setDataset(float[] v) {
+	private CategoryDataset setDataset(float[] v, List<Integer> lv) {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
 		String[] title = new String[] { "推測", "紀錄" };
 
-		List<Integer> lv = new ArrayList<Integer>();
+		if (lv == null)
+			lv = new ArrayList<Integer>();
 
 		String[] s = new String[7];
 
 		for (int i = 0; i < 7; i++) {
 			if (v[i] == -1) {
 				v[i] = interpolation(i, v);
-			} else {
 				lv.add(i);
 			}
 			s[i] = getDate(year, month, day, i - 6).substring(4, 8);
 
 			dataset.addValue(v[i], title[1], s[i]);
-			if (!lv.contains(i))
+			if (lv.contains(i))
 				dataset.addValue(v[i], title[0], s[i]);
 		}
 
@@ -249,15 +253,16 @@ public class AllDataAnalyzePanel extends Panel {
 				/ 100f;
 	}
 
-	private JFreeChart createChart(final CategoryDataset dataset, String Title) {
-		JFreeChart chart = ChartFactory.createLineChart(Title + "統計", "日期", Title, dataset, PlotOrientation.VERTICAL,
-				true, true, false);
+	private JFreeChart createChart(final CategoryDataset dataset, String Title, String ex, int type) {
+		JFreeChart chart = ChartFactory.createLineChart(Title + "統計", "日期", Title + ex, dataset,
+				PlotOrientation.VERTICAL, true, true, false);
 
 		CategoryPlot categoryplot = (CategoryPlot) chart.getPlot();
 		CategoryAxis domainAxis = categoryplot.getDomainAxis();
 		NumberAxis numberaxis = (NumberAxis) categoryplot.getRangeAxis();
 		numberaxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-		numberaxis.setLowerBound(14);
+		if (type == 1)
+			numberaxis.setLowerBound(14);
 
 		/*------設置X軸座標上的文字-----------*/
 		domainAxis.setTickLabelFont(new Font("微軟正黑體", Font.PLAIN, 14));
