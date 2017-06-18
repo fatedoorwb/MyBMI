@@ -188,16 +188,6 @@ public class MainScreen extends JFrame {
 		new Thread(new SystemUpdate()).start();
 	}
 
-	BufferedImage screen = new BufferedImage(SCREEN_W, SCREEN_H, BufferedImage.TYPE_3BYTE_BGR);
-
-	@Override
-	public void paint(Graphics g) {
-		Graphics2D screen_g2d = (Graphics2D) screen.getGraphics();
-		screen_g2d.setColor(Color.white);
-		screen_g2d.fillRect(0, 0, SCREEN_W, SCREEN_H);
-		super.paint(screen_g2d);
-		g.drawImage(screen, 0, 0, null);
-	}
 
 	class SystemUpdate implements Runnable {
 		@Override
@@ -206,7 +196,7 @@ public class MainScreen extends JFrame {
 				try {
 					Thread.sleep(50);
 					repaint();
-					revalidate();
+					revalidate();//刷新頁面
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

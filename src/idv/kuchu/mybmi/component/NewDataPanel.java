@@ -139,7 +139,7 @@ public class NewDataPanel extends Panel {
 						return;
 					}
 					if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)) {
-						cday[1] = 29;
+						cday[1] = 29;//潤年
 					}
 					try {
 						month = Integer.valueOf(Dates[1]);

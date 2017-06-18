@@ -106,9 +106,6 @@ public class FirstPanel extends Panel {
 		MainScreen.log("Load First Panel Finish.");
 	}
 
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-	}
+	
 
 }

@@ -8,7 +8,7 @@ public class DateObject {
 		if (date_start == null || date_end == null || date_start.length() != 8 || date_end.length() != 8)
 			return -1;
 		int year1 = Integer.valueOf(date_start.substring(0, 4));
-		int month1 = Integer.valueOf(date_start.substring(4, 6));
+		int month1 = Integer.valueOf( date_start.substring(4, 6));
 		int day1 = Integer.valueOf(date_start.substring(6, 8));
 		int year2 = Integer.valueOf(date_end.substring(0, 4));
 		int month2 = Integer.valueOf(date_end.substring(4, 6));
@@ -59,7 +59,6 @@ public class DateObject {
 			return false;
 		if (month1 < month2)
 			return true;
-		System.out.println(day1 + ">" + day2);
 		if (day1 > day2)
 			return false;
 		return true;
