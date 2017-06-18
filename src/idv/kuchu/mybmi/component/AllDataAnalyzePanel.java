@@ -114,10 +114,19 @@ public class AllDataAnalyzePanel extends Panel {
 			return 0;
 
 		int start = v[i - 1];
+		int istart = i-1;
 		int end = 0;
-		for (int j = i; j < v.length; j++) {
-			
+		int iend = 0;
+		for (int j = i+1; j < v.length; j++) {
+			if(v[j]!=-1){
+				end = v[j];
+				iend = j;
+				break;
+			}
 		}
+		int i1 = iend - istart;
+		
+		
 		return 0;
 	}
 
