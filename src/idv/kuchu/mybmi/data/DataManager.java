@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import idv.kuchu.mybmi.MainScreen;
+import idv.kuchu.mybmi.component.FirstPanel;
 
 public class DataManager {
 
@@ -31,7 +32,7 @@ public class DataManager {
 
 	public JSONObject getUserData() {
 		File file = new File(MainScreen.getCurrentFile(), "data/user.json");
-		return read(file);
+		return this.read(file);
 	}
 
 	public boolean hasData() {
@@ -41,8 +42,35 @@ public class DataManager {
 
 	public JSONObject getData() {
 		File file = new File(MainScreen.getCurrentFile(), "data/data.json");
-		return read(file);
+		return this.read(file);
 	}
+	
+	public void reset(){
+		File file = new File(MainScreen.getCurrentFile(), "data");
+		if(file.isDirectory()){
+			deleteAll(file);
+			if(!this.hasUserData()){
+				if(!(MainScreen.getInstance().getF() instanceof FirstPanel)){
+					MainScreen.getInstance().addF(new FirstPanel());
+				}
+			}
+		}
+	}
+	
+	private void deleteAll(File path) {
+        if (!path.exists()) {
+            return;
+        }
+        if (path.isFile()) {
+            path.delete();
+            return;
+        }
+        File[] files = path.listFiles();
+        for (int i = 0; i < files.length; i++) {
+            deleteAll(files[i]);
+        }
+        path.delete();
+    }
 
 	public boolean wirte(File file, JSONObject json) {
 		if (!file.exists()) {

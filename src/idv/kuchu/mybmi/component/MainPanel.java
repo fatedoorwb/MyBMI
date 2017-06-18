@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 import idv.kuchu.mybmi.MainScreen;
+import idv.kuchu.mybmi.data.DataManager;
 
 public class MainPanel extends Panel {
 
@@ -41,10 +42,17 @@ public class MainPanel extends Panel {
 			}
 
 		});
-		JButton BBL = new JButton("尚無功能");
+		JButton BBL = new JButton("重設資料");
 		BBL.setFont(font);
 		BBL.setBounds(BX, BY, 200, 200);
-		BBL.setEnabled(false);
+		BBL.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DataManager.instance.reset();
+			}
+
+		});
 		JButton BBR = new JButton("關於我們");
 		BBR.setFont(font);
 		BBR.setBounds(BX + 232, BY, 200, 200);
