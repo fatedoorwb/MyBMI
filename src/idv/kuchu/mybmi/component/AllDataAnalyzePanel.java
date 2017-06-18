@@ -10,8 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -32,6 +34,11 @@ import idv.kuchu.mybmi.data.DataManager;
 import idv.kuchu.mybmi.data.DateObject;
 
 public class AllDataAnalyzePanel extends Panel {
+
+	public static float interpolation(float start, float end, float d) {
+		return start + (end - start) * d;
+	}
+
 	Font font = new Font("微軟正黑體", Font.BOLD, 28);
 
 	int X = ((MainScreen.SCREEN_W - 16) - 432) / 2 - 8;
@@ -39,47 +46,87 @@ public class AllDataAnalyzePanel extends Panel {
 
 	int BX = ((MainScreen.SCREEN_W - 16) - 200) / 2 - 8;
 	int BY = ((MainScreen.SCREEN_H - 38) - 64) - 50;
-	
+
 	int year;
 	int month;
 	int day;
-	
+
 	boolean tag = true;
 
-	public AllDataAnalyzePanel() {
+	public AllDataAnalyzePanel(int type) {
 
 		JButton BMI = new JButton("BMI");
 		BMI.setFont(font);
 		BMI.setBounds(BX - 116, Y, 200, 64);
+		BMI.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainScreen.getInstance().disposeF();
+				MainScreen.getInstance().addF(new AllDataAnalyzePanel(1));
+			}
+			
+		});
 
 		JButton BodyFat = new JButton("體脂");
 		BodyFat.setFont(font);
 		BodyFat.setBounds(BX + 116, Y, 200, 64);
+		BodyFat.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainScreen.getInstance().disposeF();
+				MainScreen.getInstance().addF(new AllDataAnalyzePanel(2));
+			}
+			
+		});
 
 		Map<String, DateObject> objects = DataManager.instance.getDateObjects();
 		year = DateObject.getNowYear();
 		month = DateObject.getNowMonth();
 		day = DateObject.getNowDay();
-		if(!objects.containsKey(getDate(year, month, day,0))){
+		if (!objects.containsKey(getDate(year, month, day, 0))) {
 			JOptionPane.showMessageDialog(null, "您今天的資料還沒新增");
 			tag = false;
 			return;
 		}
 		// 圖
-		float[] v = new float[] { -1, -1, -1, -1, -1, -1, -1 };
-		{
-			for(int i=0;i<7;i++){
-				if(objects.containsKey(getDate(year, month, day, i - 6))){
-					DateObject object = objects.get(getDate(year, month, day, i - 6));
-					v[i] = DataAnalyzePanel.BMI(object.height, object.weight);
+		if(type>0){
+			float[] v = new float[] { -1, -1, -1, -1, -1, -1, -1 };
+			{
+				String end = "";
+				for (int i = 0; i < 7; i++) {
+					if (objects.containsKey(getDate(year, month, day, i - 6))) {
+						DateObject object = objects.get(getDate(year, month, day, i - 6));
+						v[i] = DataAnalyzePanel.BMI(object.height, object.weight);
+					}
+				}
+				if (v[0] == -1) {
+					Iterator<Entry<String, DateObject>> iterator = objects.entrySet().iterator();
+					Entry<String, DateObject> entry;
+					while (iterator.hasNext()) {
+						entry = iterator.next();
+						if (DateObject.DateGap(entry.getKey(), getDate(year, month, day, 6)) > 0) {
+							if (end.length() != 8) {
+								end = entry.getKey();
+							} else if (DateObject.DateGap(entry.getKey(), end) == -1) {
+								end = entry.getKey();
+							}
+						}
+					}
+					if (end.length() == 8) {
+						DateObject object = objects.get(end);
+						v[0] = DataAnalyzePanel.BMI(object.height, object.weight);
+					}
 				}
 			}
+			CategoryDataset dataset = setDataset(v);
+			JFreeChart chart = createChart(dataset, "BMI");
+			ChartPanel chartPanel = new ChartPanel(chart);
+			chartPanel.setBounds(X, Y + 100, 432, 200);
 			
+			this.add(chartPanel);
 		}
-		CategoryDataset dataset = setDataset(v);
-		JFreeChart chart = createChart(dataset, "BMI");
-		ChartPanel chartPanel = new ChartPanel(chart);
-		chartPanel.setBounds(X, Y + 100, 432, 200);
 		// -----
 
 		JButton back = new JButton("返回");
@@ -98,8 +145,6 @@ public class AllDataAnalyzePanel extends Panel {
 		this.add(BodyFat);
 
 		this.add(back);
-
-		this.add(chartPanel);
 
 	}
 
@@ -130,7 +175,7 @@ public class AllDataAnalyzePanel extends Panel {
 
 	private String getDate(int year, int month, int day, int d) {
 		int[] cd;
-		cd = getCD(year);
+		cd = DateObject.getCD(year);
 		while (d != 0) {
 			if (d < 0) {
 				day--;
@@ -143,7 +188,7 @@ public class AllDataAnalyzePanel extends Panel {
 				month--;
 				while (month <= 0) {
 					year--;
-					cd = getCD(year);
+					cd = DateObject.getCD(year);
 				}
 				day = cd[month - 1];
 			}
@@ -151,20 +196,12 @@ public class AllDataAnalyzePanel extends Panel {
 				month++;
 				while (month > 12) {
 					year++;
-					cd = getCD(year);
+					cd = DateObject.getCD(year);
 				}
 				day = cd[month - 1];
 			}
 		}
 		return DateObject.getDate(year, month, day);
-	}
-
-	private int[] getCD(int year) {
-		int[] cd = new int[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-		if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)) {
-			cd[1] = 29;
-		}
-		return cd;
 	}
 
 	private float interpolation(int i, float[] v) {
@@ -186,9 +223,8 @@ public class AllDataAnalyzePanel extends Panel {
 				break;
 			}
 		}
-		float f1 = iend - istart;
-		float f2 = (end - start) / f1;
-		return start + f2;
+		return (float) ((int) (AllDataAnalyzePanel.interpolation(start, end, 1 / ((float) (iend - istart))) * 100))
+				/ 100f;
 	}
 
 	private JFreeChart createChart(final CategoryDataset dataset, String Title) {
