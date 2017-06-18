@@ -53,10 +53,16 @@ public class NewDataPanel extends Panel {
 		labelDate.setBounds(X, 200 + Y, 64, 64);
 		JTextField textboxDate = new JTextField();
 		textboxDate.setFont(font);
-		textboxDate.setBounds(100 + X, 200 + Y, 300, 64);
+		textboxDate.setBounds(100 + X, 200 + Y, 185, 64);
 		JLabel tipDate = new JLabel("格式:年/月/日         ex:1998/08/21");
 		tipDate.setFont(new Font("微軟正黑體", Font.BOLD, 16));
 		tipDate.setBounds(100 + X, 264 + Y, 300, 26);
+		
+		JButton getTime = new JButton("現在時間");
+		getTime.setFont(font);
+		getTime.setBounds(290+X, 200+Y, 150, 64);
+		
+		
 
 		JButton back = new JButton("取消");
 		back.setFont(font);
@@ -194,6 +200,7 @@ public class NewDataPanel extends Panel {
 		this.add(tipDate);
 
 		this.add(textboxDate);
+		this.add(getTime);
 		this.add(back);
 		this.add(add);
 
