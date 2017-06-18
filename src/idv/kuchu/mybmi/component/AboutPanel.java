@@ -38,10 +38,10 @@ public class AboutPanel extends Panel {
 			this.add(label);
 		}
 
-		JButton close = new JButton("回上頁");
-		close.setFont(font);
-		close.setBounds(BX, BY, 200, 64);
-		close.addActionListener(new ActionListener() {
+		JButton back = new JButton("回上頁");
+		back.setFont(font);
+		back.setBounds(BX, BY, 200, 64);
+		back.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -49,7 +49,7 @@ public class AboutPanel extends Panel {
 			}
 
 		});
-		this.add(close);
+		this.add(back);
 		MainScreen.log("Load About Panel Finish.");
 	}
 

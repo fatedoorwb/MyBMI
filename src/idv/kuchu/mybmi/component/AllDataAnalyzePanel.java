@@ -1,7 +1,12 @@
 package idv.kuchu.mybmi.component;
 
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
@@ -31,6 +36,14 @@ public class AllDataAnalyzePanel extends Panel {
 		JButton back = new JButton("返回");
 		back.setFont(font);
 		back.setBounds(BX, BY, 200, 64);
+		back.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainScreen.getInstance().disposeF();
+			}
+
+		});
 
 		this.add(BMI);
 		this.add(BodyFat);
