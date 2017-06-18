@@ -28,6 +28,8 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import idv.kuchu.mybmi.MainScreen;
 import idv.kuchu.mybmi.data.DataManager;
@@ -58,27 +60,27 @@ public class AllDataAnalyzePanel extends Panel {
 		JButton BMI = new JButton("BMI");
 		BMI.setFont(font);
 		BMI.setBounds(BX - 116, Y, 200, 64);
-		BMI.addActionListener(new ActionListener(){
+		BMI.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				MainScreen.getInstance().disposeF();
 				MainScreen.getInstance().addF(new AllDataAnalyzePanel(1));
 			}
-			
+
 		});
 
 		JButton BodyFat = new JButton("體脂");
 		BodyFat.setFont(font);
 		BodyFat.setBounds(BX + 116, Y, 200, 64);
-		BodyFat.addActionListener(new ActionListener(){
+		BodyFat.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				MainScreen.getInstance().disposeF();
 				MainScreen.getInstance().addF(new AllDataAnalyzePanel(2));
 			}
-			
+
 		});
 
 		Map<String, DateObject> objects = DataManager.instance.getDateObjects();
@@ -91,41 +93,54 @@ public class AllDataAnalyzePanel extends Panel {
 			return;
 		}
 		// 圖
-		if(type>0){
-			float[] v = new float[] { -1, -1, -1, -1, -1, -1, -1 };
-			{
-				String end = "";
-				for (int i = 0; i < 7; i++) {
-					if (objects.containsKey(getDate(year, month, day, i - 6))) {
-						DateObject object = objects.get(getDate(year, month, day, i - 6));
-						v[i] = DataAnalyzePanel.BMI(object.height, object.weight);
+		if (type > 0) {
+			try {
+				JSONObject user = DataManager.instance.getUserData();
+				float[] v = new float[] { -1, -1, -1, -1, -1, -1, -1 };
+				{
+					String end = "";
+					for (int i = 0; i < 7; i++) {
+						if (objects.containsKey(getDate(year, month, day, i - 6))) {
+							DateObject object = objects.get(getDate(year, month, day, i - 6));
+							v[i] = DataAnalyzePanel.BMI(object.height, object.weight);
+						}
 					}
-				}
-				if (v[0] == -1) {
-					Iterator<Entry<String, DateObject>> iterator = objects.entrySet().iterator();
-					Entry<String, DateObject> entry;
-					while (iterator.hasNext()) {
-						entry = iterator.next();
-						if (DateObject.DateGap(entry.getKey(), getDate(year, month, day, 6)) > 0) {
-							if (end.length() != 8) {
-								end = entry.getKey();
-							} else if (DateObject.DateGap(entry.getKey(), end) == -1) {
-								end = entry.getKey();
+					if (v[0] == -1) {
+						Iterator<Entry<String, DateObject>> iterator = objects.entrySet().iterator();
+						Entry<String, DateObject> entry;
+						while (iterator.hasNext()) {
+							entry = iterator.next();
+							if (DateObject.DateGap(entry.getKey(), getDate(year, month, day, 6)) > 0) {
+								if (end.length() != 8) {
+									end = entry.getKey();
+								} else if (DateObject.DateGap(entry.getKey(), end) == -1) {
+									end = entry.getKey();
+								}
+							}
+						}
+						if (end.length() == 8) {
+							DateObject object = objects.get(end);
+							if (type == 1) {
+								v[0] = DataAnalyzePanel.BMI(object.height, object.weight);
+							} else if (type == 2) {
+								v[0] = DataAnalyzePanel.BF(user.getInt("gender"),
+										Integer.valueOf(end.substring(0, 4)) - user.getInt("year"), object.height,
+										object.weight);
 							}
 						}
 					}
-					if (end.length() == 8) {
-						DateObject object = objects.get(end);
-						v[0] = DataAnalyzePanel.BMI(object.height, object.weight);
-					}
 				}
+				CategoryDataset dataset = setDataset(v);
+				JFreeChart chart = createChart(dataset, "BMI");
+				ChartPanel chartPanel = new ChartPanel(chart);
+				chartPanel.setBounds(X, Y + 100, 432, 200);
+
+				this.add(chartPanel);
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
-			CategoryDataset dataset = setDataset(v);
-			JFreeChart chart = createChart(dataset, "BMI");
-			ChartPanel chartPanel = new ChartPanel(chart);
-			chartPanel.setBounds(X, Y + 100, 432, 200);
-			
-			this.add(chartPanel);
 		}
 		// -----
 
