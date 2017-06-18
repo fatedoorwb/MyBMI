@@ -73,26 +73,51 @@ public class AllDataAnalyzePanel extends Panel {
 
 	private CategoryDataset setDataset() {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		
-		String[] title = new String[]{"推測","紀錄"};
-		
-		dataset.addValue(21, "紀錄", "0531");
+
+		String[] title = new String[] { "推測", "紀錄" };
+
+		int[] v = new int[] { -1, -1, -1, -1, -1, -1, -1 };
+		v[0] = 21;
+		v[6] = 15;
+
+		for (int i = 0; i < v.length; i++) {
+			if (v[i] == -1) {
+
+			}
+		}
+
+		dataset.addValue(21, "紀錄", "0531");// <輸入
 		dataset.addValue(21, "紀錄", "0601");
 		dataset.addValue(20.5, "紀錄", "0602");
 		dataset.addValue(20, "紀錄", "0603");
 		dataset.addValue(19.5, "紀錄", "0604");
 		dataset.addValue(20, "紀錄", "0605");
-		dataset.addValue(20.5, "紀錄", "0606");
-		
-		//dataset.addValue(21, "推測", "0531");
+		dataset.addValue(20.5, "紀錄", "0606");// <輸入
+
+		dataset.addValue(21, "推測", "0531");
 		dataset.addValue(21, "推測", "0601");
 		dataset.addValue(20.5, "推測", "0602");
 		dataset.addValue(20, "推測", "0603");
 		dataset.addValue(19.5, "推測", "0604");
 		dataset.addValue(20, "推測", "0605");
-		//dataset.addValue(20.5, "推測", "0606");
-		
+		dataset.addValue(20.5, "推測", "0606");
+
 		return dataset;
+	}
+
+	private int interpolation(int i, int[] v) {
+		if (v.length < 1)
+			return 0;
+		if (v[0] == -1 || v[v.length - 1] == -1)
+			return 0;
+		if (i <= 0 || i >= v.length - 1)
+			return 0;
+
+		int start = v[i - 1];
+		int end = 0;
+		for (int j = i; j < v.length; j++) {
+
+		}
 	}
 
 	private JFreeChart createChart(final CategoryDataset dataset) {
