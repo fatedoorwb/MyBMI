@@ -5,9 +5,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,33 +49,60 @@ public class DataManager {
 		File file = new File(MainScreen.getCurrentFile(), "data/data.json");
 		return this.read(file);
 	}
-	
-	public void reset(){
+
+	public Map<String, DateObject> getDateObjects() {
+		Map<String, DateObject> result = new HashMap<String, DateObject>();
+		JSONObject objects = getData();
+		if (objects.has("content")) {
+			try {
+				JSONArray array = objects.getJSONArray("content");
+				for (int index = 0; index < array.length(); index++) {
+					JSONObject object = array.getJSONObject(index);
+					String date = DateObject.getDate(object.getInt("year"), object.getInt("month"),
+							object.getInt("day"));
+					if (result.containsKey(date)) {
+						DateObject obj = result.get(date);
+						int c = obj.c + 1;
+						double height = obj.c * obj.height + object.getDouble("height");
+						double weight = obj.c * obj.weight + object.getDouble("weight");
+						result.put(date, new DateObject(height / c, weight / c, c));
+					} else {
+						result.put(date, new DateObject(object.getDouble("height"), object.getDouble("weight"), 1));
+					}
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+
+	public void reset() {
 		File file = new File(MainScreen.getCurrentFile(), "data");
-		if(file.isDirectory()){
+		if (file.isDirectory()) {
 			deleteAll(file);
-			if(!this.hasUserData()){
-				if(!(MainScreen.getInstance().getF() instanceof FirstPanel)){
+			if (!this.hasUserData()) {
+				if (!(MainScreen.getInstance().getF() instanceof FirstPanel)) {
 					MainScreen.getInstance().addF(new FirstPanel());
 				}
 			}
 		}
 	}
-	
+
 	private void deleteAll(File path) {
-        if (!path.exists()) {
-            return;
-        }
-        if (path.isFile()) {
-            path.delete();
-            return;
-        }
-        File[] files = path.listFiles();
-        for (int i = 0; i < files.length; i++) {
-            deleteAll(files[i]);
-        }
-        path.delete();
-    }
+		if (!path.exists()) {
+			return;
+		}
+		if (path.isFile()) {
+			path.delete();
+			return;
+		}
+		File[] files = path.listFiles();
+		for (int i = 0; i < files.length; i++) {
+			deleteAll(files[i]);
+		}
+		path.delete();
+	}
 
 	public boolean wirte(File file, JSONObject json) {
 		if (!file.exists()) {

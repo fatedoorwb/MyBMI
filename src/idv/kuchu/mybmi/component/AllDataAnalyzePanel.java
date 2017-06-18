@@ -8,6 +8,9 @@ import java.awt.Graphics2D;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import javax.swing.JButton;
 
@@ -23,6 +26,7 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import idv.kuchu.mybmi.MainScreen;
+import idv.kuchu.mybmi.data.DateObject;
 
 public class AllDataAnalyzePanel extends Panel {
 	Font font = new Font("微軟正黑體", Font.BOLD, 28);
@@ -44,11 +48,17 @@ public class AllDataAnalyzePanel extends Panel {
 		BodyFat.setBounds(BX + 116, Y, 200, 64);
 
 		// 圖
-		CategoryDataset dataset = setDataset();
-		JFreeChart chart = createChart(dataset);
-
+		float[] v = new float[] { -1, -1, -1, -1, -1, -1, -1 };
+		{
+			v[0] = 21;
+			v[3] = 19;
+			v[6] = 21;
+		}
+		CategoryDataset dataset = setDataset(v);
+		JFreeChart chart = createChart(dataset, "BMI");
 		ChartPanel chartPanel = new ChartPanel(chart);
 		chartPanel.setBounds(X, Y + 100, 432, 200);
+		// -----
 
 		JButton back = new JButton("返回");
 		back.setFont(font);
@@ -71,41 +81,76 @@ public class AllDataAnalyzePanel extends Panel {
 
 	}
 
-	private CategoryDataset setDataset() {
+	private CategoryDataset setDataset(float[] v) {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
 		String[] title = new String[] { "推測", "紀錄" };
 
-		int[] v = new int[] { -1, -1, -1, -1, -1, -1, -1 };
-		v[0] = 21;
-		v[6] = 15;
+		List<Integer> lv = new ArrayList<Integer>();
 
-		for (int i = 0; i < v.length; i++) {
+		String[] s = new String[7];
+
+		Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH) + 1;
+		int day = c.get(Calendar.DAY_OF_MONTH);
+
+		for (int i = 0; i < 7; i++) {
 			if (v[i] == -1) {
-
+				v[i] = interpolation(i, v);
+			} else {
+				lv.add(i);
 			}
+			s[i] = getDate(year, month, day, i - 6).substring(4, 8);
+
+			dataset.addValue(v[i], title[1], s[i]);
+			if (!lv.contains(i))
+				dataset.addValue(v[i], title[0], s[i]);
 		}
-
-		dataset.addValue(21, "紀錄", "0531");// <輸入
-		dataset.addValue(21, "紀錄", "0601");
-		dataset.addValue(20.5, "紀錄", "0602");
-		dataset.addValue(20, "紀錄", "0603");
-		dataset.addValue(19.5, "紀錄", "0604");
-		dataset.addValue(20, "紀錄", "0605");
-		dataset.addValue(20.5, "紀錄", "0606");// <輸入
-
-		dataset.addValue(21, "推測", "0531");
-		dataset.addValue(21, "推測", "0601");
-		dataset.addValue(20.5, "推測", "0602");
-		dataset.addValue(20, "推測", "0603");
-		dataset.addValue(19.5, "推測", "0604");
-		dataset.addValue(20, "推測", "0605");
-		dataset.addValue(20.5, "推測", "0606");
 
 		return dataset;
 	}
 
-	private int interpolation(int i, int[] v) {
+	private String getDate(int year, int month, int day, int d) {
+		int[] cd;
+		cd = getCD(year);
+		while (d != 0) {
+			if (d < 0) {
+				day--;
+				d++;
+			} else {
+				day++;
+				d--;
+			}
+			while (day <= 0) {
+				month--;
+				while (month <= 0) {
+					year--;
+					cd = getCD(year);
+				}
+				day = cd[month - 1];
+			}
+			while (day > cd[month - 1]) {
+				month++;
+				while (month > 12) {
+					year++;
+					cd = getCD(year);
+				}
+				day = cd[month - 1];
+			}
+		}
+		return DateObject.getDate(year, month, day);
+	}
+
+	private int[] getCD(int year) {
+		int[] cd = new int[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+		if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)) {
+			cd[1] = 29;
+		}
+		return cd;
+	}
+
+	private float interpolation(int i, float[] v) {
 		if (v.length < 1)
 			return 0;
 		if (v[0] == -1 || v[v.length - 1] == -1)
@@ -113,26 +158,25 @@ public class AllDataAnalyzePanel extends Panel {
 		if (i <= 0 || i >= v.length - 1)
 			return 0;
 
-		int start = v[i - 1];
-		int istart = i-1;
-		int end = 0;
+		float start = v[i - 1];
+		int istart = i - 1;
+		float end = 0;
 		int iend = 0;
-		for (int j = i+1; j < v.length; j++) {
-			if(v[j]!=-1){
+		for (int j = i + 1; j < v.length; j++) {
+			if (v[j] != -1) {
 				end = v[j];
 				iend = j;
 				break;
 			}
 		}
-		int i1 = iend - istart;
-		
-		
-		return 0;
+		float f1 = iend - istart;
+		float f2 = (end - start) / f1;
+		return start + f2;
 	}
 
-	private JFreeChart createChart(final CategoryDataset dataset) {
-		JFreeChart chart = ChartFactory.createLineChart("BMI統計", "日期", "BMI", dataset, PlotOrientation.VERTICAL, true,
-				true, false);
+	private JFreeChart createChart(final CategoryDataset dataset, String Title) {
+		JFreeChart chart = ChartFactory.createLineChart(Title + "統計", "日期", Title, dataset, PlotOrientation.VERTICAL,
+				true, true, false);
 
 		CategoryPlot categoryplot = (CategoryPlot) chart.getPlot();
 		CategoryAxis domainAxis = categoryplot.getDomainAxis();
