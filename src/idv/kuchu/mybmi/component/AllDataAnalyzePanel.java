@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -42,6 +43,8 @@ public class AllDataAnalyzePanel extends Panel {
 	int year;
 	int month;
 	int day;
+	
+	boolean tag = true;
 
 	public AllDataAnalyzePanel() {
 
@@ -54,13 +57,15 @@ public class AllDataAnalyzePanel extends Panel {
 		BodyFat.setBounds(BX + 116, Y, 200, 64);
 
 		Map<String, DateObject> objects = DataManager.instance.getDateObjects();
-		if(!objects.containsKey(getDate(year, month, day,0))){
-			
-		}
-		// 圖
 		year = DateObject.getNowYear();
 		month = DateObject.getNowMonth();
 		day = DateObject.getNowDay();
+		if(!objects.containsKey(getDate(year, month, day,0))){
+			JOptionPane.showMessageDialog(null, "您今天的資料還沒新增");
+			tag = false;
+			return;
+		}
+		// 圖
 		float[] v = new float[] { -1, -1, -1, -1, -1, -1, -1 };
 		{
 			for(int i=0;i<7;i++){

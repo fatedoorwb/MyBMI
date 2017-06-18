@@ -38,7 +38,9 @@ public class MainPanel extends Panel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MainScreen.getInstance().addF(new AllDataAnalyzePanel());
+				AllDataAnalyzePanel panel = new AllDataAnalyzePanel();
+				if(panel.tag)
+					MainScreen.getInstance().addF(panel);
 			}
 
 		});
