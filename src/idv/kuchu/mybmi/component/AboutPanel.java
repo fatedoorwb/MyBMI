@@ -26,7 +26,7 @@ public class AboutPanel extends Panel {
 		super();
 		MainScreen.log("Load About Panel...");
 		List<String> member = new ArrayList<String>();
-		member.add("10515540" + "        " + "梨水竹");
+//		member.add("10515540" + "        " + "梨水竹");
 		member.add("105021033" + "      " + "黃苡珊");
 		member.add("105021008" + "      " + "陳畯程");
 		member.add("105021009" + "      " + "陳俞儒");
