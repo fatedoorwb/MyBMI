@@ -50,7 +50,7 @@ public class DataAnalyzePanel extends Panel {
 		float v2 = 0;
 		if (gender == 1) {
 			v2 = (height - 80) * 0.7f;
-		} else if (gender == 0) {
+		} else if (gender == 2) {
 			v2 = (height - 70) * 0.6f;
 		}
 
