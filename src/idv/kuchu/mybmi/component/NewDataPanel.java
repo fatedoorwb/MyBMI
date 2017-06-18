@@ -29,7 +29,8 @@ public class NewDataPanel extends Panel {
 	int BY = ((MainScreen.SCREEN_H - 38) - 64) - 50;
 
 	public NewDataPanel() {
-
+		super();
+		MainScreen.log("Load NewData Panel...");
 		JLabel labelHeight = new JLabel("身高");
 		labelHeight.setFont(font);
 		labelHeight.setBounds(X, Y, 64, 64);
@@ -58,20 +59,19 @@ public class NewDataPanel extends Panel {
 		JLabel tipDate = new JLabel("格式:年/月/日         ex:1998/08/21");
 		tipDate.setFont(new Font("微軟正黑體", Font.BOLD, 16));
 		tipDate.setBounds(100 + X, 264 + Y, 300, 26);
-		
+
 		JButton getTime = new JButton("現在時間");
 		getTime.setFont(font);
-		getTime.setBounds(290+X, 200+Y, 150, 64);
+		getTime.setBounds(290 + X, 200 + Y, 150, 64);
 		getTime.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String date = DateObject.getNow();
-				textboxDate.setText(date.substring(0,4)+"/"+date.substring(4,6)+"/"+date.substring(6,8));
+				textboxDate.setText(date.substring(0, 4) + "/" + date.substring(4, 6) + "/" + date.substring(6, 8));
 			}
 
 		});
-		
 
 		JButton back = new JButton("取消");
 		back.setFont(font);
@@ -212,7 +212,7 @@ public class NewDataPanel extends Panel {
 		this.add(getTime);
 		this.add(back);
 		this.add(add);
-
+		MainScreen.log("Load NewData Panel Finish.");
 	}
 
 }

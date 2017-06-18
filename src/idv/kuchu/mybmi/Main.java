@@ -1,7 +1,5 @@
 package idv.kuchu.mybmi;
 
-import idv.kuchu.mybmi.data.DateObject;
-
 public class Main {
 
 	static MainScreen core;

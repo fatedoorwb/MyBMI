@@ -41,10 +41,10 @@ public class DateObject {
 				result += cd[d2 - i];
 		}
 		if (month2 > month1) {
-			result += cd[month2-1];
+			result += cd[month2 - 1];
 			year2 = year1;
 			month2 = month1;
-			day2 = cd[month2-1];
+			day2 = cd[month2 - 1];
 		}
 		result += day2 - day1 + 1;
 		return result;
@@ -59,7 +59,7 @@ public class DateObject {
 			return false;
 		if (month1 < month2)
 			return true;
-		System.out.println(day1+">"+day2);
+		System.out.println(day1 + ">" + day2);
 		if (day1 > day2)
 			return false;
 		return true;

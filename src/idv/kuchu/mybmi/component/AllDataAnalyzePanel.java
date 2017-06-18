@@ -1,15 +1,10 @@
 package idv.kuchu.mybmi.component;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +20,6 @@ import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.json.JSONException;
@@ -56,7 +50,8 @@ public class AllDataAnalyzePanel extends Panel {
 	boolean tag = true;
 
 	public AllDataAnalyzePanel(int type) {
-
+		super();
+		MainScreen.log("Load AllDataAnalyze Panel...");
 		JButton BMI = new JButton("BMI");
 		BMI.setFont(font);
 		BMI.setBounds(BX - 116, Y, 200, 64);
@@ -171,7 +166,7 @@ public class AllDataAnalyzePanel extends Panel {
 		this.add(BodyFat);
 
 		this.add(back);
-
+		MainScreen.log("Load AllDataAnalyze Panel Finish.");
 	}
 
 	private CategoryDataset setDataset(float[] v, List<Integer> lv) {
@@ -249,7 +244,7 @@ public class AllDataAnalyzePanel extends Panel {
 				break;
 			}
 		}
-		return (float) ((int) (AllDataAnalyzePanel.interpolation(start, end, 1 / ((float) (iend - istart))) * 100))
+		return ((int) (AllDataAnalyzePanel.interpolation(start, end, 1 / ((float) (iend - istart))) * 100))
 				/ 100f;
 	}
 
