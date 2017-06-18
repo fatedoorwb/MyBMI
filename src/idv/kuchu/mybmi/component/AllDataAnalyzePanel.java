@@ -116,8 +116,9 @@ public class AllDataAnalyzePanel extends Panel {
 		int start = v[i - 1];
 		int end = 0;
 		for (int j = i; j < v.length; j++) {
-
+			
 		}
+		return 0;
 	}
 
 	private JFreeChart createChart(final CategoryDataset dataset) {
